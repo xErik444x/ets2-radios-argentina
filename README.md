@@ -30,4 +30,6 @@ Este repo contiene solo el archivo generado. El scraper que lo produce (con la A
 ## 📅 Última actualización
 
 - **Fecha:** 2026-08-07
-- **Estaciones probadas:** 859 → 500 funcionales incluidas
+- **Candidatas probadas:** 859
+- **Funcionales:** 714
+- **Incluidas en el archivo:** 500 (las más populares; el resto de las funcionales quedan fuera por límite)
