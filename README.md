@@ -1,6 +1,6 @@
 # 🇦🇷 Radios Argentinas para Euro Truck Simulator 2
 
-**500 radios argentinas funcionales** listas para usar en el radio browser de ETS2/ATS.
+**283 radios argentinas funcionales** (MP3/OGG, los codecs que ETS2 reproduce de verdad) listas para usar en el radio browser de ETS2/ATS.
 
 ## 📥 Instalación
 
@@ -18,7 +18,8 @@ Documentos/Euro Truck Simulator 2/profiles/<TU-PERFIL>/
 
 ## 🎵 Qué incluye
 
-- **500 estaciones** de Argentina, todas probadas y funcionando al momento de generar el archivo
+- **283 estaciones** de Argentina, todas probadas y funcionando al momento de generar el archivo
+- **Solo MP3 y OGG** — los codecs que el motor de audio de ETS2 (BASS) reproduce de forma nativa. Se excluyen AAC/AAC+ porque aunque el stream "suene" en el navegador, el juego no los reproduce (ej: AM 530, El Destape)
 - Géneros: Rock, Pop, Tango, Cumbia, Folklore, Noticias, Electrónica, Clásica y más
 - Formato estándar: `URL|Nombre|Género|AR|Bitrate|es`
 - Bitrates de 32 a 320 kbps
@@ -30,6 +31,6 @@ Este repo contiene solo el archivo generado. El scraper que lo produce (con la A
 ## 📅 Última actualización
 
 - **Fecha:** 2026-08-07
-- **Candidatas probadas:** 859
-- **Funcionales:** 714
-- **Incluidas en el archivo:** 500 (las más populares; el resto de las funcionales quedan fuera por límite)
+- **Candidatas probadas:** 499 (MP3/OGG)
+- **Funcionales:** 283
+- **Incluidas en el archivo:** 283
