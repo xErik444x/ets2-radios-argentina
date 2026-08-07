@@ -8,7 +8,7 @@
 2. Copialo a la carpeta de tu perfil:
 
 ```
-Documentos/Euro Truck Simulator 2/profiles/<TU-PERFIL>/
+Documentos/Euro Truck Simulator 2/
 ```
 
 3. Reiniciá el juego
