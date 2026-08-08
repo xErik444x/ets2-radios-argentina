@@ -26,6 +26,13 @@
   }
   input[type="search"]:focus, select:focus { border-color: var(--accent); }
   select { min-width: 150px; cursor: pointer; }
+  .btn-release {
+    background: var(--card); border: 1px solid var(--accent); color: var(--accent);
+    border-radius: 8px; padding: 8px 14px; font-size: 0.9rem; cursor: pointer;
+    text-decoration: none; display: inline-flex; align-items: center; gap: 6px;
+    transition: background 0.15s, color 0.15s; white-space: nowrap;
+  }
+  .btn-release:hover { background: var(--accent); color: var(--bg); }
   main { padding: 16px 20px; }
   #list { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 10px; }
   .radio {
@@ -65,6 +72,7 @@
   <div class="controls">
     <input type="search" id="search" placeholder="🔎 Buscar radio...">
     <select id="genre"><option value="">🎵 Todos los géneros</option></select>
+    <a class="btn-release" href="https://github.com/xErik444x/ets2-radios-argentina/releases" target="_blank" rel="noopener">⬇️ Releases & instalación</a>
     <span id="count"></span>
   </div>
 </header>
