@@ -142,6 +142,7 @@
     <span id="live" class=""><span class="dot"></span>EN VIVO</span>
     <div class="vol-wrap">🔊<input type="range" id="vol" min="0" max="1" step="0.01" value="1"></div>
   </div>
+  <span id="ver" style="position:absolute; right:8px; bottom:2px; font-size:0.6rem; color:var(--muted);">v3</span>
 </div>
 <audio id="audio" preload="none"></audio>
 
@@ -213,9 +214,7 @@ function play(r, el) {
   current = r;
   if (el) el.classList.add('playing');
 
-  audio.crossOrigin = null;
   audio.src = streamUrl(r.url);
-  audio.volume = parseFloat(volEl.value);
   audio.play().catch(() => { if (el) el.classList.add('error'); });
 
   playBtn.textContent = '⏸';
