@@ -142,7 +142,15 @@
 
 <div id="player">
   <div id="player-left">
-    <button id="playBtn" title="Play/Pausa">▶</button>
+    <button id="playBtn" title="Play/Pausa" aria-label="Play/Pausa">
+      <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor" aria-hidden="true">
+        <polygon id="icoPlay" points="7,4 20,12 7,20"></polygon>
+        <g id="icoPause" style="display:none">
+          <rect x="6" y="4" width="4.5" height="16" rx="1.2"></rect>
+          <rect x="13.5" y="4" width="4.5" height="16" rx="1.2"></rect>
+        </g>
+      </svg>
+    </button>
     <div id="now">
       <span class="eq-bars" id="eqNow"><span></span><span></span><span></span><span></span><span></span></span>
       <b id="nowName">Seleccioná una radio</b>
@@ -169,6 +177,16 @@ const genreEl = document.getElementById('genre');
 const countEl = document.getElementById('count');
 const audio = document.getElementById('audio');
 const playBtn = document.getElementById('playBtn');
+const icoPlay = document.getElementById('icoPlay');
+const icoPause = document.getElementById('icoPause');
+
+// Alterna entre icono de play y pausa (SVG, mismo estilo).
+function setPlayIcon(playing) {
+  if (!playBtn) return;
+  icoPlay.style.display = playing ? 'none' : '';
+  icoPause.style.display = playing ? '' : 'none';
+  playBtn.classList.toggle('playing', !!playing);
+}
 const nowName = document.getElementById('nowName');
 const nowGenre = document.getElementById('nowGenre');
 const nowSong = document.getElementById('nowSong');
@@ -241,8 +259,7 @@ function play(r, el) {
   audio.volume = Math.min(1, parseFloat(volEl.value) * gainFactor(r));
   audio.play().catch(() => { if (el) el.classList.add('error'); });
 
-  playBtn.textContent = '⏸';
-  playBtn.classList.add('playing');
+  setPlayIcon(true);
   liveEl.classList.add('on');
   eqNow.classList.add('on');
   nowName.textContent = r.name;
@@ -340,14 +357,12 @@ playBtn.addEventListener('click', () => {
   if (!current) return;
   if (audio.paused) {
     audio.play().catch(() => {});
-    playBtn.textContent = '⏸';
-    playBtn.classList.add('playing');
+    setPlayIcon(true);
     liveEl.classList.add('on');
     eqNow.classList.add('on');
   } else {
     audio.pause();
-    playBtn.textContent = '▶';
-    playBtn.classList.remove('playing');
+    setPlayIcon(false);
     liveEl.classList.remove('on');
     eqNow.classList.remove('on');
   }
@@ -369,15 +384,13 @@ audio.addEventListener('error', () => {
       x.querySelector('.name')?.textContent.includes(current.name));
     if (el) el.classList.add('error');
   }
-  playBtn.textContent = '▶';
-  playBtn.classList.remove('playing');
+  setPlayIcon(false);
   liveEl.classList.remove('on');
   eqNow.classList.remove('on');
 });
 
 audio.addEventListener('playing', () => {
-  playBtn.textContent = '⏸';
-  playBtn.classList.add('playing');
+  setPlayIcon(true);
   liveEl.classList.add('on');
   eqNow.classList.add('on');
 });
