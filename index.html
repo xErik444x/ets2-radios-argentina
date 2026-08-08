@@ -143,7 +143,7 @@
     <div class="vol-wrap">🔊<input type="range" id="vol" min="0" max="1" step="0.01" value="1"></div>
   </div>
 </div>
-<audio id="audio" preload="none" crossorigin="anonymous"></audio>
+<audio id="audio" preload="none"></audio>
 
 <script>
 // ═══ Radios embebidas (generado desde live_streams.sii) ═══
@@ -162,25 +162,15 @@ const liveEl = document.getElementById('live');
 const viz = document.getElementById('viz');
 const volEl = document.getElementById('vol');
 let current = null;
-let ctx = null, analyser = null, srcNode = null, rafId = null;
-let corsOK = true; // si el stream no manda CORS, usamos visualizador decorativo
+let rafId = null;
 
-// ─── Visualizador de ecualizador (Web Audio API) ───
-function initAudioGraph() {
-  if (ctx) return;
-  try {
-    ctx = new (window.AudioContext || window.webkitAudioContext)();
-    analyser = ctx.createAnalyser();
-    analyser.fftSize = 128;
-    analyser.smoothingTimeConstant = 0.8;
-    srcNode = ctx.createMediaElementSource(audio);
-    srcNode.connect(analyser);
-    analyser.connect(ctx.destination);
-  } catch (e) {
-    ctx = null; analyser = null; srcNode = null;
-  }
-}
-
+// ─── Visualizador de ecualizador (animación pura, sin Web Audio API) ───
+// IMPORTANTE: el audio se reproduce SIEMPRE por el <audio> vanilla, sin
+// AudioContext. Conectar el elemento a un MediaElementSource redirige la
+// salida por el graph de audio y, si el AudioContext está "suspended"
+// (política de autoplay del browser), NO se escucha nada — eso rompió el
+// player en la v2. El visualizador es animación decorativa: se ve vivo y
+// nunca puede afectar la reproducción.
 function drawViz() {
   if (!viz || !viz.getContext) return;
   const cv = viz.getContext('2d');
@@ -190,21 +180,18 @@ function drawViz() {
   const bars = 32;
   const gap = 3;
   const bw = (W - gap * (bars - 1)) / bars;
-  const freq = new Uint8Array(analyser ? analyser.frequencyBinCount : 0);
+  const playing = !audio.paused && audio.readyState > 2;
+  const t = Date.now() / 280;
 
   for (let i = 0; i < bars; i++) {
     let v = 0;
-    if (analyser && !audio.paused && audio.readyState > 2) {
-      analyser.getByteFrequencyData(freq);
-      // promediar un rango del espectro por barra (saltando graves extremos)
-      const start = 2 + Math.floor(i * (freq.length - 6) / bars);
-      const end = 2 + Math.floor((i + 1) * (freq.length - 6) / bars);
-      let sum = 0, n = 0;
-      for (let j = start; j < end && j < freq.length; j++) { sum += freq[j]; n++; }
-      v = n ? sum / n / 255 : 0;
-    } else if (corsOK && current && !audio.paused) {
-      // sin analizador (CORS falló): animación decorativa suave
-      v = 0.25 + 0.3 * Math.abs(Math.sin(Date.now() / 300 + i * 0.6));
+    if (playing) {
+      // ondas superpuestas para un efecto de ecualizador orgánico
+      v = 0.28
+        + 0.22 * Math.abs(Math.sin(t + i * 0.55))
+        + 0.18 * Math.abs(Math.sin(t * 1.7 + i * 0.9))
+        + 0.12 * Math.abs(Math.sin(t * 0.6 + i * 0.3));
+      if (v > 1) v = 1;
     }
     const h = Math.max(3, v * (H - 4));
     const x = i * (bw + gap);
@@ -219,25 +206,17 @@ function drawViz() {
   rafId = requestAnimationFrame(drawViz);
 }
 
-// ─── Reproducción ───
+// ─── Reproducción (100% vanilla, como el player original) ───
 function play(r, el) {
   document.querySelectorAll('.radio.playing').forEach(x => x.classList.remove('playing'));
   document.querySelectorAll('.radio.error').forEach(x => x.classList.remove('error'));
   current = r;
   if (el) el.classList.add('playing');
 
-  initAudioGraph();
-  // algunos streams no permiten CORS → reintentar sin él (modo decorativo)
-  if (srcNode) {
-    try { srcNode.disconnect(); } catch (e) {}
-    try { srcNode = ctx.createMediaElementSource(audio); srcNode.connect(analyser); analyser.connect(ctx.destination); } catch (e) { srcNode = null; }
-  }
-  audio.crossOrigin = corsOK ? 'anonymous' : null;
+  audio.crossOrigin = null;
   audio.src = streamUrl(r.url);
   audio.volume = parseFloat(volEl.value);
-  audio.play().then(() => {
-    if (ctx && ctx.state === 'suspended') ctx.resume();
-  }).catch(() => { if (el) el.classList.add('error'); });
+  audio.play().catch(() => { if (el) el.classList.add('error'); });
 
   playBtn.textContent = '⏸';
   playBtn.classList.add('playing');
@@ -270,14 +249,6 @@ volEl.addEventListener('input', () => { audio.volume = parseFloat(volEl.value); 
 audio.addEventListener('error', () => {
   // fallback: si intentamos https y falló, probar con la URL original
   if (current && audio.src.startsWith('https://') && current.url.startsWith('http://')) {
-    audio.src = current.url;
-    audio.play().catch(() => {});
-    return;
-  }
-  // fallback: si el stream bloquea CORS, reintentar sin crossorigin
-  if (current && corsOK) {
-    corsOK = false;
-    audio.crossOrigin = null;
     audio.src = current.url;
     audio.play().catch(() => {});
     return;
