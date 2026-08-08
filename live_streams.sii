@@ -1,7 +1,7 @@
 SiiNunit
 {
 live_stream_def : _nameless.539.74a7.3c9a {
- stream_data: 208
+ stream_data: 223
  stream_data[0]: "https://edge03.radiohdvivo.com/dimarco/laf889|88.9 La F Junin|Variedad|AR|128|es"
  stream_data[1]: "https://radio.mp3islam.com/listen/abdulbasit/radio.mp3|Abdulbasit Abdulsamad|Variedad|AR|192|es"
  stream_data[2]: "https://edge03.radiohdvivo.com/activa1015|Activa 101.5|Variedad|AR|128|es"
@@ -210,5 +210,20 @@ live_stream_def : _nameless.539.74a7.3c9a {
  stream_data[205]: "https://radios.solumedia.com/6348/stream|Radio La Plata 90.9|Variedad|AR|128|es"
  stream_data[206]: "https://sonic.host-live.com:10853/stream?_=1|Radio Las Palmas|Variedad|AR|128|es"
  stream_data[207]: "https://sc.host-live.com:10810/stream|Radio Mitre Patagonia - FM 90.5|Variedad|AR|82|es"
+ stream_data[208]: "https://streamer.radio.co/s3a3c12873/listen|La Tribu|Variedad|AR|128|es"
+ stream_data[209]: "http://fm999.info:8000/radio.ogg|99.9|Variedad|AR|128|es"
+ stream_data[210]: "http://n08.radiojar.com/qkxht62hy8hvv?rj-ttl=5&rj-tok=AAABn-NDyVcAsvRCYZZXYQdl4A|Radio Rebelde AM 740|Variedad|AR|128|es"
+ stream_data[211]: "https://edge03.radiohdvivo.com/continental|Continental 590 AM. Bs. As. Version 3|Variedad|AR|109|es"
+ stream_data[212]: "https://statics-v2.streema.com/static/audios/sample.ea78c3d52389.mp3|Radio Universidad - UNLP - AM 1390|Variedad|AR|128|es"
+ stream_data[213]: "https://stream.radios.red/unaradio.ogg|Una Radio Muchas Voces|Variedad|AR|128|es"
+ stream_data[214]: "https://a3.asurahosting.com:7740/radio.mp3|Impacto FM - Fray Bentos|Variedad|AR|128|es"
+ stream_data[215]: "https://27383.live.streamtheworld.com/DISNEY_URY_MV.mp3|Radio Disney Uruguay|Variedad|AR|128|es"
+ stream_data[216]: "https://comodin.uy/radio/8000/320.mp3|Radio Pipí Cucú|Variedad|AR|320|es"
+ stream_data[217]: "https://comodin.uy/listen/chiveo/320.mp3|Radio Chiveo|Variedad|AR|320|es"
+ stream_data[218]: "https://s1.radiosenialesfm.com:8020/radio.mp3|Radio Mas FM|Variedad|AR|96|es"
+ stream_data[219]: "https://panel.streamenviron.com:8264/radiokairos|Kairos FM Uruguay|Variedad|AR|128|es"
+ stream_data[220]: "http://salida.stream.com.uy:8508/stream|La voz de Paysandú - AM 1320|Variedad|AR|128|es"
+ stream_data[221]: "https://comodin.uy/radio/8000/128.mp3|Radio Pipí Cucú (128 kbps)|Variedad|AR|128|es"
+ stream_data[222]: "https://pungasradio.rebel.ar/pungasradio|Pungas Radio|Variedad|AR|64|es"
 }
 }
