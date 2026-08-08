@@ -54,15 +54,64 @@
   .radio.error .error { display: block; }
   .empty { color: var(--muted); text-align: center; padding: 40px 0; grid-column: 1 / -1; }
   #player {
-    position: fixed; bottom: 0; left: 0; right: 0; background: rgba(26,29,39,0.97);
-    backdrop-filter: blur(8px); border-top: 1px solid var(--border);
-    padding: 10px 20px; display: flex; flex-direction: column; gap: 6px; z-index: 20;
+    position: fixed; bottom: 0; left: 0; right: 0;
+    background: linear-gradient(180deg, rgba(26,29,39,0.97), rgba(15,17,23,0.99));
+    backdrop-filter: blur(12px);
+    border-top: 1px solid var(--border);
+    padding: 12px 20px;
+    display: grid;
+    grid-template-columns: minmax(180px, 1fr) auto minmax(180px, 1fr);
+    align-items: center; gap: 16px;
+    z-index: 20;
   }
-  #now { font-size: 0.85rem; color: var(--muted); display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-  #now b { color: var(--text); }
-  #now .playing-flag { color: var(--accent); }
-  audio { width: 100%; height: 40px; }
-  .hint { color: var(--muted); font-size: 0.75rem; }
+  #player-left { display: flex; align-items: center; gap: 14px; min-width: 0; }
+  #playBtn {
+    width: 52px; height: 52px; border-radius: 50%; flex-shrink: 0;
+    border: 2px solid var(--accent); background: rgba(74,222,128,0.12);
+    color: var(--accent); font-size: 1.2rem; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: transform 0.2s, background 0.2s, box-shadow 0.2s;
+  }
+  #playBtn:hover { transform: scale(1.08); background: rgba(74,222,128,0.25); box-shadow: 0 0 18px rgba(74,222,128,0.35); }
+  #playBtn.playing { animation: spinGlow 2s ease-in-out infinite; }
+  @keyframes spinGlow { 50% { box-shadow: 0 0 24px rgba(74,222,128,0.6); } }
+  #now { font-size: 0.85rem; color: var(--muted); min-width: 0; overflow: hidden; }
+  #now b { color: var(--text); display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  #now .playing-flag { color: var(--accent); font-size: 0.78rem; }
+  #live {
+    display: none; align-items: center; gap: 6px;
+    color: #f87171; font-size: 0.75rem; font-weight: 700; letter-spacing: 1px;
+  }
+  #live.on { display: inline-flex; }
+  #live .dot { width: 8px; height: 8px; border-radius: 50%; background: #f87171; animation: blink 1.2s infinite; }
+  @keyframes blink { 50% { opacity: 0.2; } }
+  #viz {
+    width: 260px; height: 56px;
+    display: block;
+  }
+  #player-right { display: flex; align-items: center; justify-content: flex-end; gap: 12px; }
+  #vol {
+    -webkit-appearance: none; appearance: none;
+    width: 100px; height: 4px; border-radius: 4px;
+    background: var(--border); outline: none; cursor: pointer;
+  }
+  #vol::-webkit-slider-thumb {
+    -webkit-appearance: none; appearance: none;
+    width: 14px; height: 14px; border-radius: 50%;
+    background: var(--accent); border: none; cursor: pointer;
+    transition: transform 0.15s;
+  }
+  #vol::-webkit-slider-thumb:hover { transform: scale(1.2); }
+  #vol::-moz-range-thumb { width: 14px; height: 14px; border-radius: 50%; background: var(--accent); border: none; cursor: pointer; }
+  .vol-wrap { display: flex; align-items: center; gap: 6px; color: var(--muted); font-size: 1rem; }
+  .hint { color: var(--muted); font-size: 0.7rem; text-align: right; }
+  .eq-bars { display: none; align-items: flex-end; gap: 3px; height: 22px; }
+  .eq-bars.on { display: flex; }
+  .eq-bars span { width: 3px; border-radius: 2px; background: var(--accent); animation: eq 1s ease-in-out infinite; }
+  .eq-bars span:nth-child(1) { animation-delay: 0s; } .eq-bars span:nth-child(2) { animation-delay: 0.2s; }
+  .eq-bars span:nth-child(3) { animation-delay: 0.4s; } .eq-bars span:nth-child(4) { animation-delay: 0.1s; }
+  .eq-bars span:nth-child(5) { animation-delay: 0.3s; }
+  @keyframes eq { 0%,100% { height: 4px; } 50% { height: 22px; } }
 </style>
 </head>
 <body>
@@ -80,10 +129,21 @@
 <main><div id="list"></div></main>
 
 <div id="player">
-  <div id="now">🎵 Seleccioná una radio para reproducir</div>
-  <audio id="audio" controls preload="none"></audio>
-  <div class="hint">Tip: si una radio no suena, probá con otra — los streams MP3/OGG funcionan mejor.</div>
+  <div id="player-left">
+    <button id="playBtn" title="Play/Pausa">▶</button>
+    <div id="now">
+      <span class="eq-bars" id="eqNow"><span></span><span></span><span></span><span></span><span></span></span>
+      <b id="nowName">Seleccioná una radio</b>
+      <span class="playing-flag" id="nowGenre"></span>
+    </div>
+  </div>
+  <canvas id="viz" width="260" height="56"></canvas>
+  <div id="player-right">
+    <span id="live" class=""><span class="dot"></span>EN VIVO</span>
+    <div class="vol-wrap">🔊<input type="range" id="vol" min="0" max="1" step="0.01" value="1"></div>
+  </div>
 </div>
+<audio id="audio" preload="none" crossorigin="anonymous"></audio>
 
 <script>
 // ═══ Radios embebidas (generado desde live_streams.sii) ═══
@@ -94,8 +154,151 @@ const searchEl = document.getElementById('search');
 const genreEl = document.getElementById('genre');
 const countEl = document.getElementById('count');
 const audio = document.getElementById('audio');
-const nowEl = document.getElementById('now');
+const playBtn = document.getElementById('playBtn');
+const nowName = document.getElementById('nowName');
+const nowGenre = document.getElementById('nowGenre');
+const eqNow = document.getElementById('eqNow');
+const liveEl = document.getElementById('live');
+const viz = document.getElementById('viz');
+const volEl = document.getElementById('vol');
 let current = null;
+let ctx = null, analyser = null, srcNode = null, rafId = null;
+let corsOK = true; // si el stream no manda CORS, usamos visualizador decorativo
+
+// ─── Visualizador de ecualizador (Web Audio API) ───
+function initAudioGraph() {
+  if (ctx) return;
+  try {
+    ctx = new (window.AudioContext || window.webkitAudioContext)();
+    analyser = ctx.createAnalyser();
+    analyser.fftSize = 128;
+    analyser.smoothingTimeConstant = 0.8;
+    srcNode = ctx.createMediaElementSource(audio);
+    srcNode.connect(analyser);
+    analyser.connect(ctx.destination);
+  } catch (e) {
+    ctx = null; analyser = null; srcNode = null;
+  }
+}
+
+function drawViz() {
+  if (!viz || !viz.getContext) return;
+  const cv = viz.getContext('2d');
+  const W = viz.width, H = viz.height;
+  cv.clearRect(0, 0, W, H);
+
+  const bars = 32;
+  const gap = 3;
+  const bw = (W - gap * (bars - 1)) / bars;
+  const freq = new Uint8Array(analyser ? analyser.frequencyBinCount : 0);
+
+  for (let i = 0; i < bars; i++) {
+    let v = 0;
+    if (analyser && !audio.paused && audio.readyState > 2) {
+      analyser.getByteFrequencyData(freq);
+      // promediar un rango del espectro por barra (saltando graves extremos)
+      const start = 2 + Math.floor(i * (freq.length - 6) / bars);
+      const end = 2 + Math.floor((i + 1) * (freq.length - 6) / bars);
+      let sum = 0, n = 0;
+      for (let j = start; j < end && j < freq.length; j++) { sum += freq[j]; n++; }
+      v = n ? sum / n / 255 : 0;
+    } else if (corsOK && current && !audio.paused) {
+      // sin analizador (CORS falló): animación decorativa suave
+      v = 0.25 + 0.3 * Math.abs(Math.sin(Date.now() / 300 + i * 0.6));
+    }
+    const h = Math.max(3, v * (H - 4));
+    const x = i * (bw + gap);
+    const grad = cv.createLinearGradient(0, H, 0, H - h);
+    grad.addColorStop(0, '#22c55e');
+    grad.addColorStop(1, '#4ade80');
+    cv.fillStyle = grad;
+    cv.beginPath();
+    cv.roundRect ? cv.roundRect(x, H - h, bw, h, 3) : cv.rect(x, H - h, bw, h);
+    cv.fill();
+  }
+  rafId = requestAnimationFrame(drawViz);
+}
+
+// ─── Reproducción ───
+function play(r, el) {
+  document.querySelectorAll('.radio.playing').forEach(x => x.classList.remove('playing'));
+  document.querySelectorAll('.radio.error').forEach(x => x.classList.remove('error'));
+  current = r;
+  if (el) el.classList.add('playing');
+
+  initAudioGraph();
+  // algunos streams no permiten CORS → reintentar sin él (modo decorativo)
+  if (srcNode) {
+    try { srcNode.disconnect(); } catch (e) {}
+    try { srcNode = ctx.createMediaElementSource(audio); srcNode.connect(analyser); analyser.connect(ctx.destination); } catch (e) { srcNode = null; }
+  }
+  audio.crossOrigin = corsOK ? 'anonymous' : null;
+  audio.src = streamUrl(r.url);
+  audio.volume = parseFloat(volEl.value);
+  audio.play().then(() => {
+    if (ctx && ctx.state === 'suspended') ctx.resume();
+  }).catch(() => { if (el) el.classList.add('error'); });
+
+  playBtn.textContent = '⏸';
+  playBtn.classList.add('playing');
+  liveEl.classList.add('on');
+  eqNow.classList.add('on');
+  nowName.textContent = r.name;
+  nowGenre.textContent = r.genre;
+  if (!rafId) drawViz();
+}
+
+playBtn.addEventListener('click', () => {
+  if (!current) return;
+  if (audio.paused) {
+    audio.play().catch(() => {});
+    playBtn.textContent = '⏸';
+    playBtn.classList.add('playing');
+    liveEl.classList.add('on');
+    eqNow.classList.add('on');
+  } else {
+    audio.pause();
+    playBtn.textContent = '▶';
+    playBtn.classList.remove('playing');
+    liveEl.classList.remove('on');
+    eqNow.classList.remove('on');
+  }
+});
+
+volEl.addEventListener('input', () => { audio.volume = parseFloat(volEl.value); });
+
+audio.addEventListener('error', () => {
+  // fallback: si intentamos https y falló, probar con la URL original
+  if (current && audio.src.startsWith('https://') && current.url.startsWith('http://')) {
+    audio.src = current.url;
+    audio.play().catch(() => {});
+    return;
+  }
+  // fallback: si el stream bloquea CORS, reintentar sin crossorigin
+  if (current && corsOK) {
+    corsOK = false;
+    audio.crossOrigin = null;
+    audio.src = current.url;
+    audio.play().catch(() => {});
+    return;
+  }
+  if (current) {
+    const el = [...document.querySelectorAll('.radio')].find(x =>
+      x.querySelector('.name')?.textContent.includes(current.name));
+    if (el) el.classList.add('error');
+  }
+  playBtn.textContent = '▶';
+  playBtn.classList.remove('playing');
+  liveEl.classList.remove('on');
+  eqNow.classList.remove('on');
+});
+
+audio.addEventListener('playing', () => {
+  playBtn.textContent = '⏸';
+  playBtn.classList.add('playing');
+  liveEl.classList.add('on');
+  eqNow.classList.add('on');
+});
 
 // En GitHub Pages (https) los streams http:// se bloquean como mixed content →
 // intentamos https:// primero y caemos a http:// si falla.
@@ -146,31 +349,6 @@ function render() {
     listEl.appendChild(div);
   }
 }
-
-function play(r, el) {
-  document.querySelectorAll('.radio.playing').forEach(x => x.classList.remove('playing'));
-  document.querySelectorAll('.radio.error').forEach(x => x.classList.remove('error'));
-  current = r;
-  if (el) el.classList.add('playing');
-  audio.src = streamUrl(r.url);
-  audio.play().catch(() => { if (el) el.classList.add('error'); });
-  nowEl.innerHTML = `▶️ <b>${esc(r.name)}</b> <span class="playing-flag">(${esc(r.genre)})</span>`;
-}
-
-audio.addEventListener('error', () => {
-  // fallback: si intentamos https y falló, probar con la URL original
-  if (current && audio.src.startsWith('https://') && current.url.startsWith('http://')) {
-    audio.src = current.url;
-    audio.play().catch(() => {});
-    return;
-  }
-  if (current) {
-    const el = [...document.querySelectorAll('.radio')].find(x =>
-      x.querySelector('.name')?.textContent.includes(current.name));
-    if (el) el.classList.add('error');
-  }
-  nowEl.innerHTML += ' — <span style="color:#f87171">⚠️ error de reproducción</span>';
-});
 
 searchEl.addEventListener('input', render);
 genreEl.addEventListener('change', render);
