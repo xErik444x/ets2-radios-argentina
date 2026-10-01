@@ -1,8 +1,8 @@
 {
  "meta": {
   "source": "live_streams.sii",
-  "ets2_compatible": 213,
-  "browser_only": 1,
+  "ets2_compatible": 214,
+  "browser_only": 0,
   "total": 214
  },
  "radios": [
@@ -1239,6 +1239,17 @@
    "e": ""
   },
   {
+   "url": "https://streaming01.shockmedia.com.ar:10501/stream",
+   "name": "Radio 10 Cordoba",
+   "genre": "Variedad",
+   "country": "AR",
+   "bitrate": 64,
+   "lang": "es",
+   "g": 0.0,
+   "m": 0,
+   "e": ""
+  },
+  {
    "url": "https://radio100.stream.laut.fm/radio100",
    "name": "Radio 100",
    "genre": "Variedad",
@@ -2348,17 +2359,6 @@
    "g": 0.0,
    "m": 0,
    "e": ""
-  },
-  {
-   "url": "https://streaming01.shockmedia.com.ar:10501/stream",
-   "name": "Radio 10 Cordoba",
-   "genre": "Variedad",
-   "country": "AR",
-   "bitrate": 64,
-   "lang": "es",
-   "codec": "aac",
-   "ets2": false,
-   "nota": "SHOUTcast v2 + AAC: no suena en ETS2 (BASS), solo browser/webplayer"
   }
  ]
 }

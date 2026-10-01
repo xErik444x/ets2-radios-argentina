@@ -1,7 +1,7 @@
 SiiNunit
 {
 live_stream_def : _nameless.539.74a7.3c9a {
- stream_data: 213
+ stream_data: 214
  stream_data[0]: "https://edge03.radiohdvivo.com/dimarco/laf889|88.9 La F Junin|Variedad|AR|128|es"
  stream_data[1]: "https://radio.mp3islam.com/listen/abdulbasit/radio.mp3|Abdulbasit Abdulsamad|Variedad|AR|192|es"
  stream_data[2]: "https://edge03.radiohdvivo.com/activa1015|Activa 101.5|Variedad|AR|128|es"
@@ -215,5 +215,6 @@ live_stream_def : _nameless.539.74a7.3c9a {
  stream_data[210]: "https://pungasradio.rebel.ar/pungasradio|Pungas Radio|Variedad|AR|64|es"
  stream_data[211]: "https://sc.sudacastream.com/radioq/;stream.mp3|Radio Q Argentina|Variedad|AR|128|es"
  stream_data[212]: "http://cdn.instream.audio:9032/stream|Universidad Claf 103.7 Mhz|Variedad|AR|128|es"
+ stream_data[213]: "https://streaming01.shockmedia.com.ar:10501/stream|Radio 10 Cordoba|Variedad|AR|64|es"
 }
 }
