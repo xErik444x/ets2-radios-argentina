@@ -1,0 +1,104 @@
+{
+ "meta": {
+  "total": 16,
+  "generado": "2026-10-03T02:37:26Z"
+ },
+ "caidas": [
+  {
+   "nombre": "Activa 91.1 Neuquén",
+   "url": "https://edge02.radiohdvivo.com/activanqn",
+   "streak": 4,
+   "ultima_verificacion": "2026-10-03T02:37:26Z"
+  },
+  {
+   "nombre": "Cielos Abiertos FM 90.1",
+   "url": "https://ssl.radiosnethosting.com/index.php?port=9298",
+   "streak": 4,
+   "ultima_verificacion": "2026-10-03T02:37:26Z"
+  },
+  {
+   "nombre": "Cristal 89.9 FM",
+   "url": "https://edge02.radiohdvivo.com/cristal899mdz",
+   "streak": 4,
+   "ultima_verificacion": "2026-10-03T02:37:26Z"
+  },
+  {
+   "nombre": "La voz de Paysandú - AM 1320",
+   "url": "http://salida.stream.com.uy:8508/stream",
+   "streak": 4,
+   "ultima_verificacion": "2026-10-03T02:37:26Z"
+  },
+  {
+   "nombre": "Lider FM 95.7",
+   "url": "https://cdn.instream.audio/:9550/stream",
+   "streak": 4,
+   "ultima_verificacion": "2026-10-03T02:37:26Z"
+  },
+  {
+   "nombre": "Radio Amgyp",
+   "url": "https://az11.yesstreaming.net:8120/radio.mp3",
+   "streak": 4,
+   "ultima_verificacion": "2026-10-03T02:37:26Z"
+  },
+  {
+   "nombre": "Radio Amistad",
+   "url": "https://a2.asurahosting.com:6580/radio.mp3",
+   "streak": 4,
+   "ultima_verificacion": "2026-10-03T02:37:26Z"
+  },
+  {
+   "nombre": "Radio Concierto 96.5 FM",
+   "url": "https://vivohd.fmradioconcierto.com.ar:8000/radio.mp3",
+   "streak": 4,
+   "ultima_verificacion": "2026-10-03T02:37:26Z"
+  },
+  {
+   "nombre": "RADIO CONCIERTO 97.1 MHZ",
+   "url": "https://vivohd.fmradioconcierto.com.ar:8000/status-json.xsl//radio.mp3",
+   "streak": 4,
+   "ultima_verificacion": "2026-10-03T02:37:26Z"
+  },
+  {
+   "nombre": "Radio FM Nueva Era 102.5",
+   "url": "https://panel.ispui.lat:1045/stream",
+   "streak": 4,
+   "ultima_verificacion": "2026-10-03T02:37:26Z"
+  },
+  {
+   "nombre": "Radio Manantial",
+   "url": "https://edge02.radiohdvivo.com/manantial993",
+   "streak": 4,
+   "ultima_verificacion": "2026-10-03T02:37:26Z"
+  },
+  {
+   "nombre": "Radio Mocoví AM 800",
+   "url": "https://cdn.instream.audio/:9548/stream",
+   "streak": 4,
+   "ultima_verificacion": "2026-10-03T02:37:26Z"
+  },
+  {
+   "nombre": "Radio Nueva Presidencia Roque Sáenz Peña 92.1 FM",
+   "url": "https://panel.ispui.lat:1065/stream",
+   "streak": 4,
+   "ultima_verificacion": "2026-10-03T02:37:26Z"
+  },
+  {
+   "nombre": "Radio Online Las Flores",
+   "url": "https://radios.yanapak.org/radiolasflores",
+   "streak": 4,
+   "ultima_verificacion": "2026-10-03T02:37:26Z"
+  },
+  {
+   "nombre": "Radio Q Argentina",
+   "url": "https://sc.sudacastream.com/radioq/;stream.mp3",
+   "streak": 4,
+   "ultima_verificacion": "2026-10-03T02:37:26Z"
+  },
+  {
+   "nombre": "Radioestación Azul",
+   "url": "https://iptv.ixfo.com.ar:30443/radio/radioazul/icecast.audio",
+   "streak": 4,
+   "ultima_verificacion": "2026-10-03T02:37:26Z"
+  }
+ ]
+}
